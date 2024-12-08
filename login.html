@@ -3,9 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Log In</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="app.js"></script>
 </head>
 <body>
+    <header>
+        <h1>Health and Wellness Coaching</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="news.html">News</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+        </nav>
+    </header>
     
+    <main>
+        <div id="login-form-section">
+            <h2>Log In</h2>
+            <form id="login-form" onsubmit="return validateLoginForm()">
+                <label for="login-email">Email:</label>
+                <input type="email" id="login-email" name="login-email" required>
+
+                <label for="login-password">Password:</label>
+                <input type="password" id="login-password" name="login-password" required>
+                <div id="login-error-message" class="error-message" style="display:none;">Please enter a valid email and password.</div>
+
+                <button type="submit">Login</button>
+            </form>
+            <p>Don't have an account? <a href="javascript:void(0);" onclick="showRegisterForm()">Register here</a></p>
+        </div>
+
+        <div id="register-form-section" style="display:none;">
+            <h2>Register</h2>
+            <form id="register-form" onsubmit="return validateRegisterForm()">
+                <label for="register-name">Name:</label>
+                <input type="text" id="register-name" name="register-name" required>
+
+                <label for="register-email">Email:</label>
+                <input type="email" id="register-email" name="register-email" required>
+
+                <label for="register-password">Password:</label>
+                <input type="password" id="register-password" name="register-password" required>
+
+                <label for="register-confirm-password">Confirm Password:</label>
+                <input type="password" id="register-confirm-password" name="register-confirm-password" required>
+
+                <div id="register-error-message" class="error-message" style="display:none;">Please make sure passwords match and email is valid.</div>
+
+                <button type="submit">Register</button>
+            </form>
+            <p>Already have an account? <a href="javascript:void(0);" onclick="showLoginForm()">Log In here</a></p>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Health and Wellness Coaching</p>
+    </footer>
+
+    <script src="app.js"></script>
 </body>
 </html>
