@@ -19,3 +19,24 @@ function validateLoginForm() {
     // Nëse gjithçka është në rregull, formulari dërgohet
     return true;
 }
+// Function to display the current day
+function displayCurrentDay() {
+    const daysOfWeek = [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+    ];
+
+    const today = new Date();
+    const currentDay = daysOfWeek[today.getDay()];
+
+    document.getElementById("current-day").textContent = currentDay;
+}
+
+// Call the function on page load
+displayCurrentDay();
+

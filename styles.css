@@ -169,3 +169,42 @@ form p a:hover {
         padding: 1.5rem;
     }
 }
+img {
+    max-width: 20%; /* Zvogëlon gjerësinë e fotove në 10% të gjerësisë së kontejnerit */
+    height: auto; /* Siguron që raporti i aspektit të fotos të ruhet */
+    margin: 10px auto; /* Shton hapësirë rreth fotove */
+    display: block; /* Qendron fotot në mes të kontejnerit */
+}
+.small-img {
+    max-width: 20%; /* Madhësi më e vogël për foto specifike */
+    height: auto;
+    margin: 10px auto;
+    display: block;
+}
+.image-container {
+    display: flex;
+    gap:10px;
+}
+.image-container img{
+    max-width: 20%;
+    height: auto;
+}
+footer {
+    max-width: 100%; /* Siguron që footer-i të mbushë plotësisht ekranin */
+    max-height: 40px;
+    padding: 10px 0; /* Shton pak më shumë hapësirë të vogël */
+}
+
+/* Për linket në footer */
+footer a {
+    color: white;
+    text-decoration: none;
+    font-size: 14px; /* Zvogëlon madhësinë e linkeve */
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+p {
+    margin: 5px 0;
+}
