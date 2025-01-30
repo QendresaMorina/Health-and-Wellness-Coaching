@@ -26,11 +26,15 @@
     <main class="main-content">
         <section class="hero">
             <h2>Your One-Stop Solution</h2>
-            <div class="image-container">
-            <img src="coach.jpg" alt="Welcome Image" class="small-img">
-            <img src="coach1.jpg" alt="Photo 1" class="small-img">
-            <img src="coach2.jpg" alt="Photo 2" class="small-img">
-            </div>
+            <div class="slider-container">
+        <div class="slider">
+            <div class="slide"><img src="coach.jpg" alt="Movie 1"></div>
+            <div class="slide"><img src="coach1.jpg" alt="Movie 2"></div>
+            <div class="slide"><img src="coach2.jpg" alt="Movie 3"></div>
+        </div>
+        <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
+        <button class="next" onclick="moveSlide(1)">&#10095;</button>
+        </div>
             <p><h4> Discover amazing opportunities with us!</h4></p>
             <p><h4> Imagine a life where you wake up each day feeling energized, confident, and in control of your mind and body.</h4></p> 
             <p><h4> At Health and Wellness Coaching, we're here to make that vision your reality.</h4></p>

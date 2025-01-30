@@ -16,25 +16,6 @@ function validateLoginForm() {
     return true;
 }
 
-function displayCurrentDay() {
-    const daysOfWeek = [
-        "Sunday",
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday"
-    ];
-
-    const today = new Date();
-    const currentDay = daysOfWeek[today.getDay()];
-
-    document.getElementById("current-day").textContent = currentDay;
-}
-
-
-displayCurrentDay();
 
 function validateForm() {
     let name = document.getElementById("name").value;
@@ -164,4 +145,29 @@ function showLoginForm() {
     document.getElementById('login-form-section').style.display = 'block';
 }
 
+let currentIndex = 0;
 
+function moveSlide(direction) {
+    const slider = document.querySelector('.slider');
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+
+    currentIndex += direction;
+
+    if (currentIndex < 0) {
+        currentIndex = totalSlides - 1;
+    } else if (currentIndex >= totalSlides) {
+        currentIndex = 0;
+    }
+
+    slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+}
+
+const prevButton = document.querySelector('.prev');
+const nextButton = document.querySelector('.next');
+prevButton.addEventListener('click', function() {
+    moveSlide(-1);
+});
+nextButton.addEventListener('click', function() {
+    moveSlide(1);
+});
