@@ -14,11 +14,11 @@
         <nav>
             <ul>
                 <li><a href="index.php">Home</a></li>
-                <li><a href="about.html">About Us</a></li>
-                <li><a href="products.html">Products</a></li>
-                <li><a href="news.html">News</a></li>
-                <li><a href="contact.html">Contact</a></li>
-                <li><a href="login.html">Login</a></li>
+                <li><a href="about.php">About Us</a></li>
+                <li><a href="products.php">Products</a></li>
+                <li><a href="news.php">News</a></li>
+                <li><a href="contact.php">Contact</a></li>
+                <li><a href="login.php">Login</a></li>
             </ul>
         </nav>
     </header>
@@ -28,9 +28,9 @@
             <h2>Your One-Stop Solution</h2>
             <div class="slider-container">
         <div class="slider">
-            <div class="slide"><img src="coach.jpg" alt="Movie 1"></div>
-            <div class="slide"><img src="coach1.jpg" alt="Movie 2"></div>
-            <div class="slide"><img src="coach2.jpg" alt="Movie 3"></div>
+            <div class="slide"><img src="coach.jpg" alt="Coach 1"></div>
+            <div class="slide"><img src="coach1.jpg" alt="Coach 2"></div>
+            <div class="slide"><img src="coach2.jpg" alt="Coach 3"></div>
         </div>
         <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
         <button class="next" onclick="moveSlide(1)">&#10095;</button>
