@@ -21,11 +21,11 @@
             </ul>
         </nav>
     </header>
-    
+
     <main>
         <div id="login-form-section">
             <h2>Log In</h2>
-            <form id="login-form" onsubmit="return validateLoginForm()">
+            <form id="login-form" action="process_login.php" method="POST" onsubmit="return validateLoginForm()">
                 <label for="login-email">Email:</label>
                 <input type="email" id="login-email" name="login-email">
 
@@ -40,7 +40,7 @@
 
         <div id="register-form-section" style="display:none;">
             <h2>Register</h2>
-            <form id="register-form" onsubmit="return validateRegisterForm()">
+            <form id="register-form" action="process_register.php" method="POST" onsubmit="return validateRegisterForm()">
                 <label for="register-name">Name:</label>
                 <input type="text" id="register-name" name="register-name">
 
