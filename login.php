@@ -21,11 +21,10 @@
             </ul>
         </nav>
     </header>
-
     <main>
         <div id="login-form-section">
             <h2>Log In</h2>
-            <form id="login-form" action="process_login.php" method="POST" onsubmit="return validateLoginForm()">
+            <form id="login-form" onsubmit="return validateLoginForm()">
                 <label for="login-email">Email:</label>
                 <input type="email" id="login-email" name="login-email">
 
@@ -40,7 +39,7 @@
 
         <div id="register-form-section" style="display:none;">
             <h2>Register</h2>
-            <form id="register-form" action="process_register.php" method="POST" onsubmit="return validateRegisterForm()">
+            <form id="register-form" onsubmit="return validateRegisterForm()">
                 <label for="register-name">Name:</label>
                 <input type="text" id="register-name" name="register-name">
 
@@ -66,5 +65,38 @@
     </footer>
 
     <script src="app.js"></script>
+</body>
+</html>
+<script>
+        function validateLoginForm() {
+            var email = document.getElementById('login-email').value;
+            var password = document.getElementById('login-password').value;
+            var errorMessage = document.getElementById('login-error-message');
+
+            // Check if email and password are filled
+            if (email === "" || password === "") {
+                errorMessage.style.display = "block";
+                return false;
+            }
+
+            // You can add further validation here if needed (e.g., check email format)
+
+            // Redirect to homepage if login is successful (this is a placeholder)
+            // Normally you would validate against a database on the server side
+            window.location.href = "index.php"; // Redirect to homepage after successful login
+            return false; // Prevent form submission since we're handling redirection in JS
+        }
+
+        // Functions to toggle between login and register forms
+        function showRegisterForm() {
+            document.getElementById('login-form-section').style.display = 'none';
+            document.getElementById('register-form-section').style.display = 'block';
+        }
+
+        function showLoginForm() {
+            document.getElementById('login-form-section').style.display = 'block';
+            document.getElementById('register-form-section').style.display = 'none';
+        }
+    </script>
 </body>
 </html>

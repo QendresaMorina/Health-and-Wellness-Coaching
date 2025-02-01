@@ -372,15 +372,16 @@ p {
 
 .slider-container {
   position: relative;
-  width: 30%;
-  margin: 20px auto;
+  width: 65%; /* Pak më e vogël për një pamje më të përshtatshme */
+  max-width: 750px; /* Kufizojmë madhësinë për të mos qenë shumë e madhe */
+  margin: 40px auto;
   overflow: hidden;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 .slider {
-  display: flex;
+  display: flex; /* Rreshton fotot horizontalisht */
   transition: transform 0.5s ease-in-out;
 }
 
@@ -391,6 +392,8 @@ p {
 
 .slide img {
   width: 100%;
+  height: 280px; /* Pak më e vogël për një pamje më të balancuar */
+  object-fit: cover;
   border-radius: 10px;
 }
 
@@ -402,9 +405,15 @@ button.prev, button.next {
   color: white;
   border: none;
   border-radius: 50%;
-  padding: 10px;
+  padding: 15px;
+  font-size: 18px;
   cursor: pointer;
   z-index: 10;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 button.prev:hover, button.next:hover {
@@ -412,12 +421,22 @@ button.prev:hover, button.next:hover {
 }
 
 button.prev {
-  left: 10px;
+  left: 15px;
 }
 
 button.next {
-  right: 10px;
+  right: 15px;
 }
+
+
+
+
+
+
+
+
+  
+  
 
 
  

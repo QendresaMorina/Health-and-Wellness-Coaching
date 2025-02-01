@@ -171,3 +171,27 @@ prevButton.addEventListener('click', function() {
 nextButton.addEventListener('click', function() {
     moveSlide(1);
 });
+
+
+ // Funksioni për të shtuar produktin në shportë
+const addToCart = (productId, productName, productPrice) => {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    cart.push({ productId, productName, productPrice });
+    localStorage.setItem('cart', JSON.stringify(cart));
+    // Pas shtimit të produktit, kalojmë në faqen e shportës
+    window.location.href = 'cart.html'; // Dërgo përdoruesin direkt në faqen e shportës
+};
+
+// Funksioni për të trajtuar klikimin e butonit "Buy Now"
+const buyNowButtons = document.querySelectorAll('.buy-now');
+buyNowButtons.forEach(button => {
+    button.addEventListener('click', (e) => {
+        const productCard = e.target.closest('.product-card');
+        const productId = productCard.dataset.id;
+        const productName = productCard.querySelector('h3').innerText;
+        const productPrice = productCard.querySelector('.price').innerText.replace('$', '');
+        
+        // Shto produktin në shportë dhe kaloni në faqen e shportës
+        addToCart(productId, productName, productPrice);
+    });
+});
