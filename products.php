@@ -1,3 +1,21 @@
+<?php
+session_start(); // Startojmë sesionin për shportën
+
+$products = [
+    ["id" => 1, "name" => "Wellness E-book", "price" => 19.99, "image" => "photo.jpg", "description" => "A guide to building healthy habits for life."],
+    ["id" => 2, "name" => "Yoga Mat", "price" => 29.99, "image" => "photo1.jpg", "description" => "High-quality mat for your daily practice."],
+    ["id" => 3, "name" => "Healthy Recipes E-book", "price" => 14.99, "image" => "photo2.jpg", "description" => "Delicious and nutritious recipes for every meal."],
+    ["id" => 4, "name" => "Resistance Bands", "price" => 24.99, "image" => "photo3.jpg", "description" => "Perfect for strength training and stretching."],
+    ["id" => 5, "name" => "Fitness Tracker", "price" => 49.99, "image" => "photo4.jpg", "description" => "Monitor your steps, calories, and sleep patterns."],
+    ["id" => 6, "name" => "Detox Tea", "price" => 12.99, "image" => "photo5.jpg", "description" => "A refreshing blend to support your digestive health."],
+    ["id" => 7, "name" => "Meditation App Subscription", "price" => 5.99, "image" => "photo6.jpg", "description" => "Access guided meditations and mindfulness exercises."],
+    ["id" => 8, "name" => "Essential Oils Set", "price" => 39.99, "image" => "photo7.jpg", "description" => "Aromatherapy oils to promote relaxation and focus."],
+    ["id" => 9, "name" => "Foam Roller", "price" => 18.99, "image" => "photo8.jpg", "description" => "Great for muscle recovery and reducing tension."],
+    ["id" => 10, "name" => "Hydration Bottle", "price" => 14.99, "image" => "photo9.jpg", "description" => "Stay hydrated with a sleek, durable water bottle."]
+];
+
+?>
+
 <!DOCTYPE html>
 <html lang="sq">
 <head>
@@ -5,7 +23,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Products</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="app.js" defer></script>
+    <style>
+        .product-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .product-card {
+            width: 250px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            text-align: center;
+            background: #fff;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .buy-now {
+            background-color: #28a745;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .buy-now:hover {
+            background-color: #218838;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -18,109 +74,38 @@
                 <li><a href="news.php">News</a></li>
                 <li><a href="contact.php">Contact</a></li>
                 <li><a href="login.php">Login</a></li>
-                <li><a href="cart.html">Cart</a></li> <!-- Link për shportën -->
+                <li><a href="cart.php">Cart</a></li>
             </ul>
         </nav>
     </header>
+
     <main>
         <section id="products">
             <h1>Our Products</h1>
             <p>Discover tools and resources to support your health and wellness journey.</p>
             
             <div class="product-container">
-                <!-- 10 Produktet -->
-                <div class="product-card" data-id="1">
-                    <img src="photo.jpg" alt="Wellness E-book">
-                    <h3>Wellness E-book</h3>
-                    <p>A guide to building healthy habits for life.</p>
-                    <p class="price">$19.99</p>
-                    <button class="buy-now">Buy Now</button>
-                    <button class="delete-btn" style="display: none;">Delete</button>
-                </div>
+                <?php foreach ($products as $product): ?>
+                    <div class="product-card">
+                        <img src="<?php echo htmlspecialchars($product['image']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>">
+                        <h3><?php echo htmlspecialchars($product['name']); ?></h3>
+                        <p><?php echo htmlspecialchars($product['description']); ?></p>
+                        <p class="price">$<?php echo number_format($product['price'], 2); ?></p>
 
-                <div class="product-card" data-id="2">
-                    <img src="photo1.jpg" alt="Yoga Mat">
-                    <h3>Yoga Mat</h3>
-                    <p>High-quality mat for your daily practice.</p>
-                    <p class="price">$29.99</p>
-                    <button class="buy-now">Buy Now</button>
-                    <button class="delete-btn" style="display: none;">Delete</button>
-                </div>
-
-                <div class="product-card" data-id="3">
-                    <img src="photo2.jpg" alt="Healthy Recipes E-book">
-                    <h3>Healthy Recipes E-book</h3>
-                    <p>Delicious and nutritious recipes for every meal.</p>
-                    <p class="price">$14.99</p>
-                    <button class="buy-now">Buy Now</button>
-                    <button class="delete-btn" style="display: none;">Delete</button>
-                </div>
-
-                <div class="product-card" data-id="4">
-                    <img src="photo3.jpg" alt="Resistance Bands">
-                    <h3>Resistance Bands</h3>
-                    <p>Perfect for strength training and stretching.</p>
-                    <p class="price">$24.99</p>
-                    <button class="buy-now">Buy Now</button>
-                    <button class="delete-btn" style="display: none;">Delete</button>
-                </div>
-
-                <div class="product-card" data-id="5">
-                    <img src="photo4.jpg" alt="Fitness Tracker">
-                    <h3>Fitness Tracker</h3>
-                    <p>Monitor your steps, calories, and sleep patterns.</p>
-                    <p class="price">$49.99</p>
-                    <button class="buy-now">Buy Now</button>
-                    <button class="delete-btn" style="display: none;">Delete</button>
-                </div>
-
-                <div class="product-card" data-id="6">
-                    <img src="photo5.jpg" alt="Detox Tea">
-                    <h3>Detox Tea</h3>
-                    <p>A refreshing blend to support your digestive health.</p>
-                    <p class="price">$12.99</p>
-                    <button class="buy-now">Buy Now</button>
-                    <button class="delete-btn" style="display: none;">Delete</button>
-                </div>
-
-                <div class="product-card" data-id="7">
-                    <img src="photo6.jpg" alt="Meditation App Subscription">
-                    <h3>Meditation App Subscription</h3>
-                    <p>Access guided meditations and mindfulness exercises.</p>
-                    <p class="price">$5.99/month</p>
-                    <button class="buy-now">Buy Now</button>
-                    <button class="delete-btn" style="display: none;">Delete</button>
-                </div>
-
-                <div class="product-card" data-id="8">
-                    <img src="photo7.jpg" alt="Essential Oils Set">
-                    <h3>Essential Oils Set</h3>
-                    <p>Aromatherapy oils to promote relaxation and focus.</p>
-                    <p class="price">$39.99</p>
-                    <button class="buy-now">Buy Now</button>
-                    <button class="delete-btn" style="display: none;">Delete</button>
-                </div>
-
-                <div class="product-card" data-id="9">
-                    <img src="photo8.jpg" alt="Foam Roller">
-                    <h3>Foam Roller</h3>
-                    <p>Great for muscle recovery and reducing tension.</p>
-                    <p class="price">$18.99</p>
-                    <button class="buy-now">Buy Now</button>
-                    <button class="delete-btn" style="display: none;">Delete</button>
-                </div>
-
-                <div class="product-card" data-id="10">
-                    <img src="photo9.jpg" alt="Hydration Bottle">
-                    <h3>Hydration Bottle</h3>
-                    <p>Stay hydrated with a sleek, durable water bottle.</p>
-                    <p class="price">$14.99</p>
-                    <button class="buy-now">Buy Now</button>
-                    <button class="delete-btn" style="display: none;">Delete</button>
-                </div>
+                        <!-- Forma për të shtuar produktin në shportë -->
+                        <form action="cart.php" method="post">
+                            <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
+                            <input type="hidden" name="product_name" value="<?php echo $product['name']; ?>">
+                            <input type="hidden" name="product_price" value="<?php echo $product['price']; ?>">
+                            <input type="hidden" name="product_image" value="<?php echo $product['image']; ?>">
+                            <button type="submit" class="buy-now">Buy Now</button>
+                        </form>
+                    </div>
+                <?php endforeach; ?>
             </div>
         </section>          
     </main>
+
     <footer>
         <p>&copy; 2024 Health and Wellness Coaching</p>
     </footer>

@@ -1,175 +1,99 @@
-function validateLoginForm() {
-    var username = document.getElementById('username').value;
-    var password = document.getElementById('password').value;
+document.addEventListener("DOMContentLoaded", function () {
+    function validateLoginForm() {
+        var email = document.getElementById('login-email');
+        var password = document.getElementById('login-password');
+        var errorMessage = document.getElementById('login-error-message');
 
-    if (username == "" || password == "") {
-        alert("Të dyja fushat janë të kërkuara!");
-        return false;
+        if (!email || !password || !errorMessage) return false; // Prevents errors if elements don't exist
+
+        var emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        var passwordRegex = /.{8,}/; // Minimum 8 characters
+
+        if (!emailRegex.test(email.value) || !passwordRegex.test(password.value)) {
+            errorMessage.style.display = 'block';
+            return false;
+        } else {
+            errorMessage.style.display = 'none';
+            return true;
+        }
     }
 
-    if (password.length < 6) {
-        alert("Fjalëkalimi duhet të ketë të paktën 6 karaktere.");
-        return false;
+    function validateRegisterForm() {
+        var name = document.getElementById('register-name');
+        var email = document.getElementById('register-email');
+        var password = document.getElementById('register-password');
+        var confirmPassword = document.getElementById('register-confirm-password');
+        var errorMessage = document.getElementById('register-error-message');
+
+        if (!name || !email || !password || !confirmPassword || !errorMessage) return false;
+
+        var emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        var passwordRegex = /.{8,}/;
+
+        if (!emailRegex.test(email.value) || password.value !== confirmPassword.value || !passwordRegex.test(password.value)) {
+            errorMessage.style.display = 'block';
+            return false;
+        } else {
+            errorMessage.style.display = 'none';
+            return true;
+        }
     }
 
-
-    return true;
-}
-
-
-function validateForm() {
-    let name = document.getElementById("name").value;
-    let email = document.getElementById("email").value;
-    let message = document.getElementById("message").value;
-    
-   
-    if (name.trim() === "") {
-        alert("Emri është i detyrueshëm!");
-        return false;
+    function showRegisterForm() {
+        document.getElementById('login-form-section').style.display = 'none';
+        document.getElementById('register-form-section').style.display = 'block';
     }
 
-
-    let emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!emailPattern.test(email)) {
-        alert("Ju lutemi futni një adresë të vlefshme emaili!");
-        return false;
+    function showLoginForm() {
+        document.getElementById('register-form-section').style.display = 'none';
+        document.getElementById('login-form-section').style.display = 'block';
     }
 
-  
-    if (message.trim().length < 10) {
-        alert("Mesazhi duhet të ketë të paktën 10 karaktere!");
-        return false;
+    let currentIndex = 0;
+
+    function moveSlide(direction) {
+        const slider = document.querySelector('.slider');
+        const slides = document.querySelectorAll('.slide');
+        if (!slider || slides.length === 0) return;
+
+        currentIndex += direction;
+
+        if (currentIndex < 0) {
+            currentIndex = slides.length - 1;
+        } else if (currentIndex >= slides.length) {
+            currentIndex = 0;
+        }
+
+        slider.style.transform = `translateX(-${currentIndex * 100}%)`;
     }
 
-  
-    return true;
-}
+    const prevButton = document.querySelector('.prev');
+    const nextButton = document.querySelector('.next');
 
-function validateLoginForm() {
-    let email = document.getElementById("login-email").value;
-    let password = document.getElementById("login-password").value;
+    if (prevButton && nextButton) {
+        prevButton.addEventListener('click', function () {
+            moveSlide(-1);
+        });
 
-    let emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!emailPattern.test(email)) {
-        alert("Ju lutemi futni një adresë të vlefshme emaili!");
-        return false;
+        nextButton.addEventListener('click', function () {
+            moveSlide(1);
+        });
     }
 
-    if (password.trim().length < 6) {
-        alert("Fjalëkalimi duhet të ketë të paktën 6 karaktere!");
-        return false;
+    // Attach form validation to the forms
+    const loginForm = document.getElementById("login-form");
+    const registerForm = document.getElementById("register-form");
+
+    if (loginForm) {
+        loginForm.onsubmit = validateLoginForm;
+    }
+    if (registerForm) {
+        registerForm.onsubmit = validateRegisterForm;
     }
 
-    return true;
-}
-
-function validateRegisterForm() {
-    let name = document.getElementById("register-name").value;
-    let email = document.getElementById("register-email").value;
-    let password = document.getElementById("register-password").value;
-    let confirmPassword = document.getElementById("register-confirm-password").value;
-
-    if (name.trim() === "") {
-        alert("Emri është i detyrueshëm!");
-        return false;
-    }
-
-    let emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!emailPattern.test(email)) {
-        alert("Ju lutemi futni një adresë të vlefshme emaili!");
-        return false;
-    }
-
-    
-    if (password.length < 6) {
-        alert("Fjalëkalimi duhet të ketë të paktën 6 karaktere!");
-        return false;
-    }
-
-    if (password !== confirmPassword) {
-        alert("Fjalëkalimi dhe konfirmimi i fjalëkalimit nuk përputhen!");
-        return false;
-    }
-
-    return true;
-}
-
-function validateLoginForm() {
-   
-    var email = document.getElementById('login-email').value;
-    var password = document.getElementById('login-password').value;
-    
-    var emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    var passwordRegex = /.{8,}/; //
-
-    var errorMessage = document.getElementById('login-error-message');
-
-    if (!emailRegex.test(email) || !passwordRegex.test(password)) {
-    
-        errorMessage.style.display = 'block';
-        return false; 
-    } else {
-    
-        errorMessage.style.display = 'none';
-        return true; 
-    }
-}
-
-function validateRegisterForm() {
-    var name = document.getElementById('register-name').value;
-    var email = document.getElementById('register-email').value;
-    var password = document.getElementById('register-password').value;
-    var confirmPassword = document.getElementById('register-confirm-password').value;
-
-    var emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    var passwordRegex = /.{8,}/; 
-
-    var errorMessage = document.getElementById('register-error-message');
-
-    if (!emailRegex.test(email) || password !== confirmPassword || !passwordRegex.test(password)) {
-        errorMessage.style.display = 'block';
-        return false;
-    } else {
-        errorMessage.style.display = 'none';
-        return true; 
-    }
-}
-
-function showRegisterForm() {
-    document.getElementById('login-form-section').style.display = 'none';
-    document.getElementById('register-form-section').style.display = 'block';
-}
-
-function showLoginForm() {
-    document.getElementById('register-form-section').style.display = 'none';
-    document.getElementById('login-form-section').style.display = 'block';
-}
-
-let currentIndex = 0;
-
-function moveSlide(direction) {
-    const slider = document.querySelector('.slider');
-    const slides = document.querySelectorAll('.slide');
-    const totalSlides = slides.length;
-
-    currentIndex += direction;
-
-    if (currentIndex < 0) {
-        currentIndex = totalSlides - 1;
-    } else if (currentIndex >= totalSlides) {
-        currentIndex = 0;
-    }
-
-    slider.style.transform = `translateX(-${currentIndex * 100}%)`;
-}
-
-const prevButton = document.querySelector('.prev');
-const nextButton = document.querySelector('.next');
-prevButton.addEventListener('click', function() {
-    moveSlide(-1);
-});
-nextButton.addEventListener('click', function() {
-    moveSlide(1);
+    // Expose functions globally for HTML inline event handlers
+    window.showRegisterForm = showRegisterForm;
+    window.showLoginForm = showLoginForm;
 });
 
 

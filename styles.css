@@ -370,14 +370,19 @@ p {
   border-radius: 5px;
 }
 
+.some-class{
+ padding: 20px;
+  cursor: pointer;
+  z-index: 20;
+}
 .slider-container {
   position: relative;
   width: 65%; /* Pak më e vogël për një pamje më të përshtatshme */
   max-width: 750px; /* Kufizojmë madhësinë për të mos qenë shumë e madhe */
   margin: 40px auto;
   overflow: hidden;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 40px;
+  box-shadow: 0 6px 35px rgba(0, 0, 0, 0.3);
 }
 
 .slider {
@@ -386,17 +391,18 @@ p {
 }
 
 .slide {
-  min-width: 100%;
+  min-width: 100%; /* Çdo foto do të mbushë ekranin plotësisht */
   box-sizing: border-box;
 }
 
 .slide img {
   width: 100%;
-  height: 280px; /* Pak më e vogël për një pamje më të balancuar */
+  height: 280px; /* Kjo i jep një lartësi të balancuar fotove */
   object-fit: cover;
   border-radius: 10px;
 }
 
+/* Butonat për navigimin */
 button.prev, button.next {
   position: absolute;
   top: 50%;
@@ -428,35 +434,81 @@ button.next {
   right: 15px;
 }
 
+.cart-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
 
+.cart-item {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
 
+.cart-image {
+  width: 100px; /* Ose madhësia që dëshironi për imazhin */
+  height: auto;
+}
 
+.cart-item-inner {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
 
+.cart-details {
+  display: flex;
+  flex-direction: column;
+}
 
+.remove-btn {
+  background-color: red;
+  color: white;
+  padding: 5px 10px;
+  text-decoration: none;
+  border-radius: 5px;
+}
 
+.remove-btn:hover {
+  background-color: darkred;
+}
 
-  
-  
+style
+        .product-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
 
+        .product-card {
+            width: 250px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            text-align: center;
+            background: #fff;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        }
 
- 
+        .product-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
 
+        .buy-now {
+            background-color: #28a745;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
 
-
-
-
-  
-
-
-
-
-
-
-
-
- 
-
-
-
-
-
+        .buy-now:hover {
+            background-color: #218838;
+        }

@@ -33,7 +33,7 @@
             <div class="slide"><img src="coach2.jpg" alt="Coach 3"></div>
         </div>
         <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
-        <button class="next" onclick="moveSlide(1)">&#10095;</button>
+        <button class="next" onclick="moveSlide(-1)">&#10095;</button>
         </div>
             <p><h4> Discover amazing opportunities with us!</h4></p>
             <p><h4> Imagine a life where you wake up each day feeling energized, confident, and in control of your mind and body.</h4></p> 
