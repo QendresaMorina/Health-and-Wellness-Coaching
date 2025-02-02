@@ -12,7 +12,7 @@
         <h1>Health and Wellness Coaching</h1>
         <nav>
             <ul>
-                <li><a href="index.phpl">Home</a></li>
+                <li><a href="index.php">Home</a></li>
                 <li><a href="about.php">About Us</a></li>
                 <li><a href="products.php">Products</a></li>
                 <li><a href="news.php">News</a></li>

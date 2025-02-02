@@ -1,3 +1,7 @@
+<?php
+require_once 'User.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,7 +25,6 @@
             </ul>
         </nav>
     </header>
-
     <main>
         <div id="login-form-section">
             <h2>Log In</h2>
