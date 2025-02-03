@@ -1,5 +1,53 @@
 <?php
 require_once 'User.php';
+session_start(); // Start session at the beginning
+
+// Kontrollo nëse formulari është dërguar
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (isset($_POST['login-submit'])) {
+        // Destroy previous session if user was already logged in
+        session_destroy();
+        session_start();
+
+        // Login form submitted
+        $email = $_POST['login-email'];
+        $password = $_POST['login-password'];
+
+        $user = new User();
+        $loginResult = $user->login($email, $password);
+
+        if (is_array($loginResult)) {
+            // Përdoruesi ka hyrë me sukses
+            $_SESSION['user'] = $loginResult;
+            header("Location: index.php"); // Redirektoni në faqen kryesore
+            exit();
+        } else {
+            // Gabim gjatë login-it
+            $errorMessage = $loginResult;
+        }
+    } elseif (isset($_POST['register-submit'])) {
+        // Register form submitted
+        $name = $_POST['register-name'];
+        $email = $_POST['register-email'];
+        $password = $_POST['register-password'];
+        $confirmPassword = $_POST['register-confirm-password'];
+
+        if ($password !== $confirmPassword) {
+            $errorMessage = "Passwords do not match!";
+        } else {
+            $user = new User();
+            $registrationResult = $user->register($name, $email, $password);
+            $successMessage = $registrationResult;
+        }
+    }
+}
+
+// Logout functionality
+if (isset($_GET['logout'])) {
+    session_destroy();
+    header("Location: login.php");
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -7,9 +55,8 @@ require_once 'User.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Log In</title>
+    <title>Log In / Register</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="app.js"></script>
 </head>
 <body>
     <header>
@@ -21,76 +68,69 @@ require_once 'User.php';
                 <li><a href="products.php">Products</a></li>
                 <li><a href="news.php">News</a></li>
                 <li><a href="contact.php">Contact</a></li>
-                <li><a href="login.php">Login</a></li>
+                <li>
+                    <?php if (isset($_SESSION['user'])): ?>
+                        <a href="login_register.php?logout=true">Logout</a>
+                    <?php else: ?>
+                        <a href="login_register.php">Login/Register</a>
+                    <?php endif; ?>
+                </li>
             </ul>
         </nav>
     </header>
+
     <main>
+        <?php if (!isset($_SESSION['user'])): ?>
+        <!-- Login Section -->
         <div id="login-form-section">
             <h2>Log In</h2>
-            <form id="login-form" onsubmit="return validateLoginForm()">
+            <?php if (isset($errorMessage)) { echo "<p class='error'>$errorMessage</p>"; } ?>
+            <form method="POST" id="login-form">
                 <label for="login-email">Email:</label>
-                <input type="email" id="login-email" name="login-email">
+                <input type="email" id="login-email" name="login-email" required>
 
                 <label for="login-password">Password:</label>
-                <input type="password" id="login-password" name="login-password">
-                <div id="login-error-message" class="error-message" style="display:none;">Please enter a valid email and password.</div>
+                <input type="password" id="login-password" name="login-password" required>
 
-                <button type="submit">Login</button>
+                <button type="submit" name="login-submit">Login</button>
             </form>
             <p>Don't have an account? <a href="javascript:void(0);" onclick="showRegisterForm()">Register here</a></p>
         </div>
 
+        <!-- Register Section -->
         <div id="register-form-section" style="display:none;">
             <h2>Register</h2>
-            <form id="register-form" onsubmit="return validateRegisterForm()">
+            <?php if (isset($errorMessage)) { echo "<p class='error'>$errorMessage</p>"; } ?>
+            <?php if (isset($successMessage)) { echo "<p class='success'>$successMessage</p>"; } ?>
+            <form method="POST" id="register-form">
                 <label for="register-name">Name:</label>
-                <input type="text" id="register-name" name="register-name">
+                <input type="text" id="register-name" name="register-name" required>
 
                 <label for="register-email">Email:</label>
-                <input type="email" id="register-email" name="register-email">
+                <input type="email" id="register-email" name="register-email" required>
 
                 <label for="register-password">Password:</label>
-                <input type="password" id="register-password" name="register-password">
+                <input type="password" id="register-password" name="register-password" required>
 
                 <label for="register-confirm-password">Confirm Password:</label>
-                <input type="password" id="register-confirm-password" name="register-confirm-password">
+                <input type="password" id="register-confirm-password" name="register-confirm-password" required>
 
-                <div id="register-error-message" class="error-message" style="display:none;">Please make sure passwords match and email is valid.</div>
-
-                <button type="submit">Register</button>
+                <button type="submit" name="register-submit">Register</button>
             </form>
             <p>Already have an account? <a href="javascript:void(0);" onclick="showLoginForm()">Log In here</a></p>
         </div>
+        <?php else: ?>
+            <h2>Welcome, <?= htmlspecialchars($_SESSION['user']['name']); ?>!</h2>
+            <p>You are already logged in.</p>
+            <a href="login_register.php?logout=true">Logout</a>
+        <?php endif; ?>
     </main>
 
     <footer>
         <p>&copy; 2024 Health and Wellness Coaching</p>
     </footer>
 
-    <script src="app.js"></script>
-</body>
-</html>
-<script>
-        function validateLoginForm() {
-            var email = document.getElementById('login-email').value;
-            var password = document.getElementById('login-password').value;
-            var errorMessage = document.getElementById('login-error-message');
-
-            // Check if email and password are filled
-            if (email === "" || password === "") {
-                errorMessage.style.display = "block";
-                return false;
-            }
-
-            // You can add further validation here if needed (e.g., check email format)
-
-            // Redirect to homepage if login is successful (this is a placeholder)
-            // Normally you would validate against a database on the server side
-            window.location.href = "index.php"; // Redirect to homepage after successful login
-            return false; // Prevent form submission since we're handling redirection in JS
-        }
-
+    <script>
         // Functions to toggle between login and register forms
         function showRegisterForm() {
             document.getElementById('login-form-section').style.display = 'none';

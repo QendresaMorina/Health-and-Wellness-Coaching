@@ -1,19 +1,58 @@
 <?php
-session_start(); // Startojmë sesionin për shportën
+session_start();
 
+// Redirect to login.php if the user is not logged in
+if (!isset($_SESSION['user']) && basename($_SERVER['PHP_SELF']) !== 'login.php') {
+    header("Location: login.php");
+    exit();
+}
+
+// Handle logout
+if (isset($_GET['logout'])) {
+    session_destroy();
+    header("Location: login.php");
+    exit();
+}
+
+// Product and User class definitions
+class Product {
+    public $id;
+    public $name;
+    public $price;
+    public $image;
+    public $description;
+
+    public function __construct($id, $name, $price, $image, $description) {
+        $this->id = $id;
+        $this->name = $name;
+        $this->price = $price;
+        $this->image = $image;
+        $this->description = $description;
+    }
+}
+
+class User {
+    public static function isAdmin() {
+        return isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
+    }
+}
+
+// Define products
 $products = [
-    ["id" => 1, "name" => "Wellness E-book", "price" => 19.99, "image" => "photo.jpg", "description" => "A guide to building healthy habits for life."],
-    ["id" => 2, "name" => "Yoga Mat", "price" => 29.99, "image" => "photo1.jpg", "description" => "High-quality mat for your daily practice."],
-    ["id" => 3, "name" => "Healthy Recipes E-book", "price" => 14.99, "image" => "photo2.jpg", "description" => "Delicious and nutritious recipes for every meal."],
-    ["id" => 4, "name" => "Resistance Bands", "price" => 24.99, "image" => "photo3.jpg", "description" => "Perfect for strength training and stretching."],
-    ["id" => 5, "name" => "Fitness Tracker", "price" => 49.99, "image" => "photo4.jpg", "description" => "Monitor your steps, calories, and sleep patterns."],
-    ["id" => 6, "name" => "Detox Tea", "price" => 12.99, "image" => "photo5.jpg", "description" => "A refreshing blend to support your digestive health."],
-    ["id" => 7, "name" => "Meditation App Subscription", "price" => 5.99, "image" => "photo6.jpg", "description" => "Access guided meditations and mindfulness exercises."],
-    ["id" => 8, "name" => "Essential Oils Set", "price" => 39.99, "image" => "photo7.jpg", "description" => "Aromatherapy oils to promote relaxation and focus."],
-    ["id" => 9, "name" => "Foam Roller", "price" => 18.99, "image" => "photo8.jpg", "description" => "Great for muscle recovery and reducing tension."],
-    ["id" => 10, "name" => "Hydration Bottle", "price" => 14.99, "image" => "photo9.jpg", "description" => "Stay hydrated with a sleek, durable water bottle."]
+    new Product(1, "Wellness E-book", 19.99, "photo.jpg", "A guide to building healthy habits for life."),
+    new Product(2, "Yoga Mat", 29.99, "photo1.jpg", "High-quality mat for your daily practice."),
+    new Product(3, "Healthy Recipes E-book", 14.99, "photo2.jpg", "Delicious and nutritious recipes for every meal."),
+    new Product(4, "Resistance Bands", 24.99, "photo3.jpg", "Perfect for strength training and stretching."),
+    new Product(5, "Fitness Tracker", 49.99, "photo4.jpg", "Monitor your steps, calories, and sleep patterns."),
+    new Product(6, "Detox Tea", 12.99, "photo5.jpg", "A refreshing blend to support your digestive health."),
+    new Product(7, "Meditation App Subscription", 5.99, "photo6.jpg", "Access guided meditations and mindfulness exercises."),
+    new Product(8, "Essential Oils Set", 39.99, "photo7.jpg", "Aromatherapy oils to promote relaxation and focus."),
+    new Product(9, "Foam Roller", 18.99, "photo8.jpg", "Great for muscle recovery and reducing tension."),
+    new Product(10, "Hydration Bottle", 14.99, "photo9.jpg", "Stay hydrated with a sleek, durable water bottle.")
 ];
 
+// Check if user is admin
+$is_admin = User::isAdmin();
 ?>
 
 <!DOCTYPE html>
@@ -23,45 +62,6 @@ $products = [
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Products</title>
     <link rel="stylesheet" href="styles.css">
-    <style>
-        .product-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            max-width: 1200px;
-            margin: auto;
-        }
-
-        .product-card {
-            width: 250px;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            text-align: center;
-            background: #fff;
-            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .product-card img {
-            width: 100%;
-            height: auto;
-            border-radius: 5px;
-        }
-
-        .buy-now {
-            background-color: #28a745;
-            color: white;
-            padding: 10px;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-
-        .buy-now:hover {
-            background-color: #218838;
-        }
-    </style>
 </head>
 <body>
     <header>
@@ -73,8 +73,14 @@ $products = [
                 <li><a href="products.php">Products</a></li>
                 <li><a href="news.php">News</a></li>
                 <li><a href="contact.php">Contact</a></li>
-                <li><a href="login.php">Login</a></li>
                 <li><a href="cart.php">Cart</a></li>
+                <li>
+                    <?php if (isset($_SESSION['user'])): ?>
+                        <a href="?logout=true">Logout</a>
+                    <?php else: ?>
+                        <a href="login.php">Login</a>
+                    <?php endif; ?>
+                </li>
             </ul>
         </nav>
     </header>
@@ -87,19 +93,34 @@ $products = [
             <div class="product-container">
                 <?php foreach ($products as $product): ?>
                     <div class="product-card">
-                        <img src="<?php echo htmlspecialchars($product['image']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>">
-                        <h3><?php echo htmlspecialchars($product['name']); ?></h3>
-                        <p><?php echo htmlspecialchars($product['description']); ?></p>
-                        <p class="price">$<?php echo number_format($product['price'], 2); ?></p>
+                        <img src="<?php echo htmlspecialchars($product->image); ?>" alt="<?php echo htmlspecialchars($product->name); ?>">
+                        <h3><?php echo htmlspecialchars($product->name); ?></h3>
+                        <p><?php echo htmlspecialchars($product->description); ?></p>
+                        <p class="price">$<?php echo number_format($product->price, 2); ?></p>
 
-                        <!-- Forma për të shtuar produktin në shportë -->
+                        <!-- Add to Cart Form -->
                         <form action="cart.php" method="post">
-                            <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
-                            <input type="hidden" name="product_name" value="<?php echo $product['name']; ?>">
-                            <input type="hidden" name="product_price" value="<?php echo $product['price']; ?>">
-                            <input type="hidden" name="product_image" value="<?php echo $product['image']; ?>">
+                            <input type="hidden" name="product_id" value="<?php echo $product->id; ?>">
+                            <input type="hidden" name="product_name" value="<?php echo $product->name; ?>">
+                            <input type="hidden" name="product_price" value="<?php echo $product->price; ?>">
+                            <input type="hidden" name="product_image" value="<?php echo $product->image; ?>">
                             <button type="submit" class="buy-now">Buy Now</button>
                         </form>
+
+                        <!-- Admin Controls -->
+                        <?php if ($is_admin): ?>
+                            <form action="delete_product.php" method="post">
+                                <input type="hidden" name="product_id" value="<?php echo $product->id; ?>">
+                                <button type="submit" class="delete-btn">Delete</button>
+                            </form>
+
+                            <form action="add_product.php" method="post">
+                                <input type="hidden" name="product_name" value="<?php echo $product->name; ?>">
+                                <input type="hidden" name="product_price" value="<?php echo $product->price; ?>">
+                                <input type="hidden" name="product_image" value="<?php echo $product->image; ?>">
+                                <button type="submit" class="add-btn">Add</button>
+                            </form>
+                        <?php endif; ?>
                     </div>
                 <?php endforeach; ?>
             </div>
