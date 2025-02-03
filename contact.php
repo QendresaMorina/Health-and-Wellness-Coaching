@@ -48,19 +48,34 @@ if (isset($_GET['logout'])) {
         <div class="center-text">
             <h2>Contact Us</h2>
         </div>
-        <!-- The contact form -->
-        <form id="contact-form" onsubmit="return validateForm()" method="post" action="process_contact.php">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required minlength="3" maxlength="50">
-            
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-            
-            <label for="message">Message:</label>
-            <textarea id="message" name="message" required minlength="10" maxlength="500"></textarea>
-            
-            <button type="submit">Submit</button>
-        </form>
+<!-- The contact form -->
+<form id="contact-form" onsubmit="return validateForm()" method="post" action="process_contact.php">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required minlength="3" maxlength="50">
+    
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+    
+    <label for="message">Message:</label>
+    <textarea id="message" name="message" required minlength="10" maxlength="500"></textarea>
+    
+    <!-- Success message placeholder -->
+    <?php
+    // Display the flash message if it exists, then clear it
+    if (isset($_SESSION['success'])) {
+        echo '<p style="color: green; margin-top: 5px;">' . $_SESSION['success'] . '</p>';
+        unset($_SESSION['success']);
+    }
+    // Optionally, display an error message in red if needed
+    if (isset($_SESSION['error'])) {
+        echo '<p style="color: red; margin-top: 5px;">' . $_SESSION['error'] . '</p>';
+        unset($_SESSION['error']);
+    }
+    ?>
+    
+    <button type="submit">Submit</button>
+</form>
+
     </main>
     <footer>
         <p>&copy; 2024 Health and Wellness Coaching</p>
