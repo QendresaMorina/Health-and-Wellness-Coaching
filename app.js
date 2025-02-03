@@ -4,10 +4,10 @@ document.addEventListener("DOMContentLoaded", function () {
         var password = document.getElementById('login-password');
         var errorMessage = document.getElementById('login-error-message');
 
-        if (!email || !password || !errorMessage) return false; // Prevents errors if elements don't exist
+        if (!email || !password || !errorMessage) return false;
 
         var emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        var passwordRegex = /.{8,}/; // Minimum 8 characters
+        var passwordRegex = /.{8,}/;
 
         if (!emailRegex.test(email.value) || !passwordRegex.test(password.value)) {
             errorMessage.style.display = 'block';
@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Attach form validation to the forms
+
     const loginForm = document.getElementById("login-form");
     const registerForm = document.getElementById("register-form");
 
@@ -91,22 +91,20 @@ document.addEventListener("DOMContentLoaded", function () {
         registerForm.onsubmit = validateRegisterForm;
     }
 
-    // Expose functions globally for HTML inline event handlers
+
     window.showRegisterForm = showRegisterForm;
     window.showLoginForm = showLoginForm;
 });
 
 
- // Funksioni për të shtuar produktin në shportë
+
 const addToCart = (productId, productName, productPrice) => {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
     cart.push({ productId, productName, productPrice });
     localStorage.setItem('cart', JSON.stringify(cart));
-    // Pas shtimit të produktit, kalojmë në faqen e shportës
-    window.location.href = 'cart.html'; // Dërgo përdoruesin direkt në faqen e shportës
+    window.location.href = 'cart.html'; 
 };
 
-// Funksioni për të trajtuar klikimin e butonit "Buy Now"
 const buyNowButtons = document.querySelectorAll('.buy-now');
 buyNowButtons.forEach(button => {
     button.addEventListener('click', (e) => {
@@ -115,7 +113,7 @@ buyNowButtons.forEach(button => {
         const productName = productCard.querySelector('h3').innerText;
         const productPrice = productCard.querySelector('.price').innerText.replace('$', '');
         
-        // Shto produktin në shportë dhe kaloni në faqen e shportës
+
         addToCart(productId, productName, productPrice);
     });
 });

@@ -13,17 +13,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $result = $user->login($email, $password);
 
     if (is_array($result)) {
-        // Successful login
         session_start();
         $_SESSION['user_id'] = $result['id'];
         $_SESSION['user_name'] = $result['name'];
         $_SESSION['is_admin'] = $result['is_admin'];
 
-        header("Location: dashboard.php"); // or wherever you want to redirect
+        header("Location: dashboard.php"); 
         exit();
     } else {
-        // Failed login
-        echo $result; // This will show the error message from the `login()` method
+        echo $result; 
     }
 } else {
     die("Invalid request.");

@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// Shtimi i produktit në shportë
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $product = [
         "id" => $_POST["product_id"],
@@ -13,7 +12,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $_SESSION["cart"][] = $product;
 }
 
-// Fshirja e produkteve nga shporta
 if (isset($_GET["remove"])) {
     $remove_id = $_GET["remove"];
     foreach ($_SESSION["cart"] as $key => $item) {

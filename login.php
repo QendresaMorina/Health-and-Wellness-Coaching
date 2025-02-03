@@ -1,15 +1,12 @@
 <?php
 require_once 'User.php';
-session_start(); // Start session at the beginning
+session_start();
 
-// Kontrollo nëse formulari është dërguar
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['login-submit'])) {
-        // Destroy previous session if user was already logged in
         session_destroy();
         session_start();
 
-        // Login form submitted
         $email = $_POST['login-email'];
         $password = $_POST['login-password'];
 
@@ -17,16 +14,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $loginResult = $user->login($email, $password);
 
         if (is_array($loginResult)) {
-            // Përdoruesi ka hyrë me sukses
+    
             $_SESSION['user'] = $loginResult;
-            header("Location: index.php"); // Redirektoni në faqen kryesore
+            header("Location: index.php"); 
             exit();
         } else {
-            // Gabim gjatë login-it
+            
             $errorMessage = $loginResult;
         }
     } elseif (isset($_POST['register-submit'])) {
-        // Register form submitted
+        
         $name = $_POST['register-name'];
         $email = $_POST['register-email'];
         $password = $_POST['register-password'];
@@ -42,7 +39,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-// Logout functionality
 if (isset($_GET['logout'])) {
     session_destroy();
     header("Location: login.php");
@@ -81,7 +77,6 @@ if (isset($_GET['logout'])) {
 
     <main>
         <?php if (!isset($_SESSION['user'])): ?>
-        <!-- Login Section -->
         <div id="login-form-section">
             <h2>Log In</h2>
             <?php if (isset($errorMessage)) { echo "<p class='error'>$errorMessage</p>"; } ?>
@@ -96,8 +91,6 @@ if (isset($_GET['logout'])) {
             </form>
             <p>Don't have an account? <a href="javascript:void(0);" onclick="showRegisterForm()">Register here</a></p>
         </div>
-
-        <!-- Register Section -->
         <div id="register-form-section" style="display:none;">
             <h2>Register</h2>
             <?php if (isset($errorMessage)) { echo "<p class='error'>$errorMessage</p>"; } ?>
@@ -131,7 +124,6 @@ if (isset($_GET['logout'])) {
     </footer>
 
     <script>
-        // Functions to toggle between login and register forms
         function showRegisterForm() {
             document.getElementById('login-form-section').style.display = 'none';
             document.getElementById('register-form-section').style.display = 'block';

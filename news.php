@@ -1,13 +1,11 @@
 <?php
 session_start();
 
-// Redirect to login.php if the user is not logged in
 if (!isset($_SESSION['user']) && basename($_SERVER['PHP_SELF']) !== 'login.php') {
     header("Location: login.php");
     exit();
 }
 
-// Handle logout
 if (isset($_GET['logout'])) {
     session_destroy();
     header("Location: login.php");

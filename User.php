@@ -1,6 +1,6 @@
 <?php
-require_once 'Database.php';
 
+require_once 'Database.php';
 class User {
     private $db;
 
@@ -37,5 +37,12 @@ class User {
             return "Error: " . $e->getMessage();
         }
     }
+
+    public static function isAdmin() {
+        return isset($_SESSION['user']['is_admin']) && $_SESSION['user']['is_admin'] == 1;
+    }
+    
+    
 }
+
 ?>

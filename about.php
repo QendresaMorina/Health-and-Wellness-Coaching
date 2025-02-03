@@ -1,13 +1,11 @@
 <?php
 session_start();
 
-// Redirect to login.php if the user is not logged in
 if (!isset($_SESSION['user']) && basename($_SERVER['PHP_SELF']) !== 'login.php') {
     header("Location: login.php");
     exit();
 }
 
-// Handle logout and redirect to login.php
 if (isset($_GET['logout'])) {
     session_destroy();
     header("Location: login.php");
@@ -51,7 +49,7 @@ if (isset($_GET['logout'])) {
         <p>We specialize in health and wellness coaching, focusing on your physical, mental, and emotional well-being.</p>
         <p>Our goal is to support you in building better habits, reducing stress, and achieving balance in your life.</p>
         <p>We believe that everyone is unique, so we create personalized plans that fit your needs and lifestyle.</p>
-        <p>We’re here to guide and motivate you every step of the way.</p>
+        <p>We're here to guide and motivate you every step of the way.</p>
         <p>Together, we can help you reach your full potential and enjoy the life you deserve.</p>
     </main>
 

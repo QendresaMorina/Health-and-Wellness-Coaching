@@ -1,58 +1,54 @@
 <?php
 session_start();
+include 'database.php';
+require_once 'User.php'; 
 
-// Redirect to login.php if the user is not logged in
+
+$db = new Database(); 
+$conn = $db->getConnection();  
+
 if (!isset($_SESSION['user']) && basename($_SERVER['PHP_SELF']) !== 'login.php') {
     header("Location: login.php");
     exit();
 }
 
-// Handle logout
+
 if (isset($_GET['logout'])) {
     session_destroy();
     header("Location: login.php");
     exit();
 }
 
-// Product and User class definitions
+
 class Product {
     public $id;
     public $name;
     public $price;
     public $image;
-    public $description;
 
-    public function __construct($id, $name, $price, $image, $description) {
+    public function __construct($id, $name, $price, $image) {
         $this->id = $id;
         $this->name = $name;
         $this->price = $price;
         $this->image = $image;
-        $this->description = $description;
     }
 }
 
-class User {
-    public static function isAdmin() {
-        return isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
-    }
+
+$sql = "SELECT id, name, price, image FROM products";
+$stmt = $conn->prepare($sql);
+$stmt->execute();
+$products = [];
+
+while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    $products[] = new Product($row['id'], $row['name'], $row['price'], $row['image']);
 }
 
-// Define products
-$products = [
-    new Product(1, "Wellness E-book", 19.99, "photo.jpg", "A guide to building healthy habits for life."),
-    new Product(2, "Yoga Mat", 29.99, "photo1.jpg", "High-quality mat for your daily practice."),
-    new Product(3, "Healthy Recipes E-book", 14.99, "photo2.jpg", "Delicious and nutritious recipes for every meal."),
-    new Product(4, "Resistance Bands", 24.99, "photo3.jpg", "Perfect for strength training and stretching."),
-    new Product(5, "Fitness Tracker", 49.99, "photo4.jpg", "Monitor your steps, calories, and sleep patterns."),
-    new Product(6, "Detox Tea", 12.99, "photo5.jpg", "A refreshing blend to support your digestive health."),
-    new Product(7, "Meditation App Subscription", 5.99, "photo6.jpg", "Access guided meditations and mindfulness exercises."),
-    new Product(8, "Essential Oils Set", 39.99, "photo7.jpg", "Aromatherapy oils to promote relaxation and focus."),
-    new Product(9, "Foam Roller", 18.99, "photo8.jpg", "Great for muscle recovery and reducing tension."),
-    new Product(10, "Hydration Bottle", 14.99, "photo9.jpg", "Stay hydrated with a sleek, durable water bottle.")
-];
 
-// Check if user is admin
 $is_admin = User::isAdmin();
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -85,6 +81,15 @@ $is_admin = User::isAdmin();
         </nav>
     </header>
 
+    
+
+
+    <?php if (isset($_SESSION['user']['is_admin']) && $_SESSION['user']['is_admin'] == 1): ?>
+    <a href="add_product.php" class="add-product-btn">Add Product</a>
+    <?php endif; ?>
+
+
+
     <main>
         <section id="products">
             <h1>Our Products</h1>
@@ -95,10 +100,9 @@ $is_admin = User::isAdmin();
                     <div class="product-card">
                         <img src="<?php echo htmlspecialchars($product->image); ?>" alt="<?php echo htmlspecialchars($product->name); ?>">
                         <h3><?php echo htmlspecialchars($product->name); ?></h3>
-                        <p><?php echo htmlspecialchars($product->description); ?></p>
                         <p class="price">$<?php echo number_format($product->price, 2); ?></p>
 
-                        <!-- Add to Cart Form -->
+                
                         <form action="cart.php" method="post">
                             <input type="hidden" name="product_id" value="<?php echo $product->id; ?>">
                             <input type="hidden" name="product_name" value="<?php echo $product->name; ?>">
@@ -107,18 +111,10 @@ $is_admin = User::isAdmin();
                             <button type="submit" class="buy-now">Buy Now</button>
                         </form>
 
-                        <!-- Admin Controls -->
                         <?php if ($is_admin): ?>
                             <form action="delete_product.php" method="post">
                                 <input type="hidden" name="product_id" value="<?php echo $product->id; ?>">
                                 <button type="submit" class="delete-btn">Delete</button>
-                            </form>
-
-                            <form action="add_product.php" method="post">
-                                <input type="hidden" name="product_name" value="<?php echo $product->name; ?>">
-                                <input type="hidden" name="product_price" value="<?php echo $product->price; ?>">
-                                <input type="hidden" name="product_image" value="<?php echo $product->image; ?>">
-                                <button type="submit" class="add-btn">Add</button>
                             </form>
                         <?php endif; ?>
                     </div>
