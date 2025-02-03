@@ -13,33 +13,6 @@ if (isset($_GET['logout'])) {
     header("Location: login.php");
     exit();
 }
-
-// Redirect if not admin
-require_once 'User.php'; // Include the User class
-if (!User::isAdmin()) {
-    header("Location: login.php");
-    exit();
-}
-
-// Initialize database connection
-include 'database.php';
-$db = new Database();
-$conn = $db->getConnection();
-
-// Handle product submission
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $name = $_POST['product_name'];
-    $price = $_POST['product_price'];
-    $image = $_POST['product_image']; // Ideally, you would want to handle file uploads properly
-
-    $sql = "INSERT INTO products (name, price, image) VALUES (?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->execute([$name, $price, $image]);
-
-    $_SESSION['success'] = "Product added successfully!";
-    header("Location: add_product.php"); // Redirect back to the add product page
-    exit();
-}
 ?>
 
 <!DOCTYPE html>
@@ -47,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Product</title>
+    <title>Contact Us</title>
     <link rel="stylesheet" href="styles.css">
     <script src="app.js"></script>
 </head>
@@ -71,47 +44,42 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </ul>
         </nav>
     </header>
-
     <main>
         <div class="center-text">
-            <h2>Add New Product</h2>
+            <h2>Contact Us</h2>
         </div>
+<!-- The contact form -->
+<form id="contact-form" onsubmit="return validateForm()" method="post" action="process_contact.php">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required minlength="3" maxlength="50">
+    
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+    
+    <label for="message">Message:</label>
+    <textarea id="message" name="message" required minlength="10" maxlength="500"></textarea>
+    
+    <!-- Success message placeholder -->
+    <?php
+    // Display the flash message if it exists, then clear it
+    if (isset($_SESSION['success'])) {
+        echo '<p style="color: green; margin-top: 5px;">' . $_SESSION['success'] . '</p>';
+        unset($_SESSION['success']);
+    }
+    // Optionally, display an error message in red if needed
+    if (isset($_SESSION['error'])) {
+        echo '<p style="color: red; margin-top: 5px;">' . $_SESSION['error'] . '</p>';
+        unset($_SESSION['error']);
+    }
+    ?>
+    
+    <button type="submit">Submit</button>
+</form>
 
-        <!-- The product form -->
-        <form id="add-product-form" method="POST" action="add_product.php">
-            <label for="product_name">Product Name:</label>
-            <input type="text" id="product_name" name="product_name" required minlength="3" maxlength="100">
-            
-            <label for="product_price">Price:</label>
-            <input type="text" id="product_price" name="product_price" required>
-
-            <label for="product_image">Image URL:</label>
-            <input type="text" id="product_image" name="product_image" required>
-
-            <!-- Success message placeholder -->
-            <?php
-            if (isset($_SESSION['success'])) {
-                echo '<p style="color: green; margin-top: 5px;">' . $_SESSION['success'] . '</p>';
-                unset($_SESSION['success']);
-            }
-            ?>
-
-            <button type="submit">Add Product</button>
-        </form>
-
-        <!-- Optional Error message -->
-        <?php
-        if (isset($_SESSION['error'])) {
-            echo '<p style="color: red; margin-top: 5px;">' . $_SESSION['error'] . '</p>';
-            unset($_SESSION['error']);
-        }
-        ?>
     </main>
-
     <footer>
         <p>&copy; 2024 Health and Wellness Coaching</p>
     </footer>
-    
     <script src="script.js"></script>
 </body>
 </html>

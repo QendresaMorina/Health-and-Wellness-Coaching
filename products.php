@@ -85,8 +85,9 @@ $is_admin = User::isAdmin();
 
 
     <?php if (isset($_SESSION['user']['is_admin']) && $_SESSION['user']['is_admin'] == 1): ?>
-    <a href="add_product.php" class="add-product-btn">Add Product</a>
-    <?php endif; ?>
+    <a href="add_product.php" class="buy-now add-product-btn margint">Add Product</a>
+<?php endif; ?>
+
 
 
 
